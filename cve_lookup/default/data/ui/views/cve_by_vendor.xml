@@ -1,0 +1,77 @@
+<form theme="dark">
+  <label>CVE Lookup By Vendor</label>
+  <fieldset submitButton="false">
+    <input type="dropdown" token="vendor" searchWhenChanged="true">
+      <label>Vendor</label>
+      <fieldForLabel>vendor</fieldForLabel>
+      <fieldForValue>vendor</fieldForValue>
+      <search>
+        <query>index=cve sourcetype=cveproducts | stats count by affects.vendor.vendor_data{}.vendor_name | rename affects.vendor.vendor_data{}.vendor_name as vendor</query>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </search>
+    </input>
+    <input type="dropdown" token="cve" searchWhenChanged="true">
+      <label>CVE</label>
+      <fieldForLabel>cve</fieldForLabel>
+      <fieldForValue>cve</fieldForValue>
+      <search>
+        <query>index=cve sourcetype=cveproducts affects.vendor.vendor_data{}.vendor_name=$vendor$ | stats count by cve</query>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </search>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <search>
+          <query>index=cve sourcetype=cveinfo  cve=$cve$ | stats latest(publishedDate) as "Date Published", latest(lastModifiedDate) as "Date Last Modified", latest(description.description_data{}.value) as Description</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Impact (v2 | v3)</title>
+        <search>
+          <query>index=cve sourcetype=cveinfo  cve=$cve$ | stats latest(impact.baseMetricV2.exploitabilityScore) as v2_exp_score, latest(impact.baseMetricV2.impactScore) as v2_imp_score,latest(impact.baseMetricV2.severity) as v2_severity, latest(impact.baseMetricV3.exploitabilityScore) as v3_exp_score, latest(impact.baseMetricV3.impactScore) as v3_imp_score</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <search>
+          <query>index=cve sourcetype=cveproducts cve=$cve$ | spath affects.vendor.vendor_data{}.product.product_data{} output=x | mvexpand x | spath input=x| stats count by affects.vendor.vendor_data{}.vendor_name ,product_name, version.version_data{}.version_affected, version.version_data{}.version_value | rename affects.vendor.vendor_data{}.vendor_name as vendor_name, version.version_data{}.version_affected as version_affected, version.version_data{}.version_value as version_value| fields - count</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>References</title>
+        <search>
+          <query>index=cve sourcetype=cvereferences cve=$cve$ | spath references.reference_data{}.name output=x | mvexpand x | spath input=x| stats count by references.reference_data{}.url | rename references.reference_data{}.url as URL | table URL</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="count">10</option>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+</form>

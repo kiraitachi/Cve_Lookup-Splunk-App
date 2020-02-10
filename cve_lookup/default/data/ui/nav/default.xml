@@ -1,0 +1,8 @@
+<nav search_view="search">
+    <view name="search" default='true' />
+    <view name="cve_by_year" />
+    <view name="cve_by_vendor" />
+    <!-- This is an external link -->
+    <a href="https://fuzzmymind.com/" target="_blank">About</a>
+    <view name="dashboards" />
+</nav>
