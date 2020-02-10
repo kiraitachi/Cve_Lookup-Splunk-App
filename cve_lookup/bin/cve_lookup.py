@@ -46,10 +46,10 @@ class MyScript(Script):
         else:
             raise ValueError("format attribute should be 'zip' or 'gz'.")
         for year in years:
-            accepted_years = {'2019', '2018', '2017'}
+            accepted_years = {'2020','2019', '2018', '2017'}
             y = year.strip()
             if y not in accepted_years:
-                raise ValueError("Allowed years: 2017, 2018 or 2019")
+                raise ValueError("Allowed years: 2017, 2018, 2019 or 2020. Otherwise edit cve_lookup.py")
             
 
     def stream_events(self, inputs, ew):
