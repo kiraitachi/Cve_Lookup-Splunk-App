@@ -2,7 +2,9 @@
 
 It is a Splunk App that pulls down CVE information from the National Vulnerability Database using its new JSON 1.0 feed. The app extracts CVE information, its impact, affected products, vendors and associated advisory and references. It could be a great addition to enrich data that your security team already looks into for creating very informative correlation.
 
------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------
+
+![alt text](https://fuzzmymind.files.wordpress.com/2019/06/screen-shot-2019-06-09-at-11.00.09-pm.png?w=1250)
 
 # Indexes and Sourcetypes
 index=cve with a default retention of 3 days.
