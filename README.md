@@ -15,6 +15,11 @@ Data is pulled through a modular input [cve://<name] where you can specify the c
 It has two sample dashboards for you to play with and get a feel of what you can do with this data. The dashboards allow you to lookup CVE by Year (supported years are 2017-2019) and lookup CVE by Vendor. Screenshots below.
 
 -----------------------------------------------------------------------------------------------------------------------------------------
+# Downloads
+
+Go to Relase section or just click here:
+https://github.com/kiraitachi/Cve_Lookup-Splunk-App/releases/download/1.0/Cve_Lookup-Splunk-App-1.0.tar.gz
+
 
 # Credits
 This repo is fixed upload fork of the original code done by ManishMenon86. Since I tried reaching him for a fix of the new 2020 CVE bug with no avail, I decided to download the Splunk App and fiddle in the code to correct the issue.
